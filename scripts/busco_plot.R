@@ -61,5 +61,6 @@ read_delim("Busco_summary.txt") %>%
 					angle = 0), 
 	  strip.background = element_blank())
 
-ggsave(paste0("/scratch/karencgs/busco_transcriptome/BUSCO_", Sys.Date(), ".svg"), 
+dir.create("plots", showWarnings = F)
+ggsave(paste0("plots/BUSCO_", Sys.Date(), ".svg"), 
 width = 8, height = 8, units="in")
