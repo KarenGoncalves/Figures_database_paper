@@ -15,7 +15,7 @@ formatted_species =
             gsub("^(\\w+ \\w+) (PB|TH)$", "italic('\\1')~' \\2'", x=.)
     }
 
-read_delim("/scratch/karencgs/busco_transcriptome/batch_summary.txt") %>% 
+read_delim("Busco_summary.txt") %>% 
     mutate(Species = gsub(".fasta", "", Input_file) %>% 
                gsub("_", " ",  .),
            Species_formatted = Species %>% formatted_species) %>% 
