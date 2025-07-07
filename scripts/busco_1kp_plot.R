@@ -42,4 +42,5 @@ combined_data %>%
 
 ggsave("plots/Supplementary_compare_1KP_busco.svg",
        width=8, height = 4.6)
-    
+ggsave("plots/Supplementary_compare_1KP_busco.png",
+       width=8, height = 4.6)    

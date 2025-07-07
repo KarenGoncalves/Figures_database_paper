@@ -86,3 +86,5 @@ final_plot
 dir.create("plots", showWarnings = F)
 ggsave(paste0("plots/Number_of_features", Sys.Date(), ".svg"),
        width = 8, height = 8, units="in")
+ggsave(paste0("plots/Number_of_features", Sys.Date(), ".png"),
+       width = 8, height = 8, units="in")

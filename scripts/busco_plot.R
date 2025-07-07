@@ -31,4 +31,6 @@ read_delim("Busco_summary.txt") %>%
 
 dir.create("plots", showWarnings = F)
 ggsave(paste0("plots/BUSCO_", Sys.Date(), ".svg"), 
-width = 8, height = 8, units="in")
+       width = 8, height = 8, units="in")
+ggsave(paste0("plots/BUSCO_", Sys.Date(), ".png"), 
+       width = 8, height = 8, units="in")
