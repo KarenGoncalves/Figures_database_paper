@@ -33,6 +33,7 @@ plots = lapply(levels(features$Feature), \(x) {
         theme_classic() + 
         facet_grid(rows = vars(Origin), drop = T,
                    cols = vars(Feature),  
+                   labeller = label_parsed,
                    scales = "free_y", shrink = T,
                    space = "free_y", ) + 
         scale_fill_manual(values = color_feature[[x]]) + 
