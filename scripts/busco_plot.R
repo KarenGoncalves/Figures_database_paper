@@ -1,7 +1,7 @@
 # busco plot
 source("scripts/FUNCTIONS.R")
 
-read_delim("Busco_summary.txt") %>% 
+busco_data = read_delim("Busco_summary.txt") %>% 
     mutate(Species = gsub(".fasta", "", Input_file) %>% 
                gsub("_", " ",  .),
            Species_formatted = Species %>% formatted_species) %>% 
@@ -12,7 +12,19 @@ read_delim("Busco_summary.txt") %>%
                           levels = c("Single", "Duplicated", 
                                      "Fragmented", "Missing")),
            Origin = get_Origin(Species)
-    ) %>% 
+    ) 
+
+busco_data %>%
+    filter(BUSCO %in% c("Single", "Duplicated")) %>%
+    group_by(Species) %>%
+    summarise(Complete = sum(Pct)) %>% 
+    arrange(desc(Complete))
+
+busco_data %>%
+    filter(BUSCO == "Missing") %>%
+    arrange(desc(Pct))
+
+busco_data %>% 
     ggplot(aes(Pct, Species_formatted %>% fct_rev, fill = BUSCO %>% fct_rev)) + 
     geom_col() + 
     theme_classic() + 

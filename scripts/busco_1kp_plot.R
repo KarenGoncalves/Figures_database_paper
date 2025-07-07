@@ -44,3 +44,26 @@ ggsave("plots/Supplementary_compare_1KP_busco.svg",
        width=8, height = 4.6)
 ggsave("plots/Supplementary_compare_1KP_busco.png",
        width=8, height = 4.6)    
+
+
+combined_data %>%
+    filter(BUSCO == "Missing") %>%
+    ggplot(aes(Pct, Assembly, 
+               fill = BUSCO %>% fct_rev)) + 
+    geom_col(show.legend = F) + 
+    theme_classic() + 
+    facet_grid(rows = vars(Species_formatted) ,
+               labeller = label_parsed,
+               axes = "all_x") + 
+    labs(x = "Missing BUSCO %", y = "", fill = "") +
+    scale_fill_manual(values = "black") + 
+    theme(axis.text = element_text(color = "black", size = 11),
+          legend.text = element_text(size = 11),
+          strip.text.y = element_text(color = "black",
+                                      angle = 0, 
+                                      size = 11), 
+          strip.background = element_blank())
+ggsave("plots/Supplementary_compare_1KP_busco_missing.svg",
+       width=8, height = 4.6)
+ggsave("plots/Supplementary_compare_1KP_busco_missing.png",
+       width=8, height = 4.6)
