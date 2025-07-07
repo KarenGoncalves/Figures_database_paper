@@ -1,0 +1,7 @@
+Input_file	Dataset	Complete	Single	Duplicated	Fragmented	Missing	n_markers
+Amaryllis_belladonna	liliopsida_odb10	20.9	13.5	7.4	12.5	66.6	3236				
+Narcissus_viridiflorus	liliopsida_odb10	76.1	45.6	30.5	12.2	11.7	3236
+Phycella_aff_cyrthantoides	liliopsida_odb10	73.8	42.6	31.2	11.9	14.3	3236				
+Rhodophiala_pratensis	liliopsida_odb10	53.6	35.5	18.1	17.2	29.2	3236				
+Traubia_modesta	liliopsida_odb10	17.1	10.5	6.6	11.8	71.1	3236
+Zephyranthes_treatiae	liliopsida_odb10	18.2	10.3	7.9	16.5	65.3	3236
