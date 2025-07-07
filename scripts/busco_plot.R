@@ -16,8 +16,9 @@ read_delim("Busco_summary.txt") %>%
     ggplot(aes(Pct, Species_formatted %>% fct_rev, fill = BUSCO %>% fct_rev)) + 
     geom_col() + 
     theme_classic() + 
-        facet_grid(rows = vars(Origin), scales = "free_y",  
-                   axes = "all_y", space = "free") + 
+    facet_grid(rows = vars(Origin), scales = "free_y",  
+               axes = "all_y", space = "free",
+               labeller = label_parsed) +
     scale_fill_viridis_d(option="plasma", direction = -1) + 
     labs(x = "BUSCO %", y = "", fill = "") +
     scale_y_discrete(labels = ggplot2:::parse_safe) +

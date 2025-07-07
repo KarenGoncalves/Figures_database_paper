@@ -21,20 +21,21 @@ get_Origin = function(assembly) {
                               "Rhodophiala pratensis",
                               "Traubia modesta",
                               "Zephyranthes treatiae") ~
-                  "1Kp",
+                  "'1Kp'",
               assembly %in% c("Zephyranthes carinata",
                               "Crinum asiaticum",
                               "Hippeastrum striatum",
                               "Scadoxus multiflorus") ~
-                  "Wang et al, 2024",
-              assembly == "Narcissus sp" ~ "Mehta et al 2024",
+                  paste0("'Wang '", "~italic('et al.')~", "' 2024'"),
+              assembly == "Narcissus sp" ~ 
+                  paste0("'Mehta '", "~italic('et al.')~", "' 2024'"),
               assembly %in% c("Narcissus papyraceus", "Leucojum aestivum",
                               "Crinum powellii") ~
-                  "Desgagne-Penix team",
+                  "'Desgagne-Penix team'",
               assembly %in% c("Narcissus aff pseudonarcissus",
                               "Galanthus sp",
                               "Galanthus elwesii") ~
-                  "Kilgore et al, 2014,2016",
-              .default = "Assembled de novo")
+                 paste0("'Kilgore '", "~italic('et al.')~", "', 2014, 2016'"),
+              .default = paste0("'Assembled '", "~italic('de novo')")
+    )
 }
-
