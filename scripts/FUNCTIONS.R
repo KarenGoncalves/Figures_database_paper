@@ -31,11 +31,13 @@ get_Origin = function(assembly) {
                   paste0("'Mehta '", "~italic('et al.')~", "' 2024'"),
               assembly %in% c("Narcissus papyraceus", "Leucojum aestivum",
                               "Crinum powellii") ~
-                  "'Desgagne-Penix team'",
+                  "'Desgagné-Penix team'",
               assembly %in% c("Narcissus aff pseudonarcissus",
                               "Galanthus sp",
                               "Galanthus elwesii") ~
                  paste0("'Kilgore '", "~italic('et al.')~", "', 2014, 2016'"),
               .default = paste0("'Assembled '", "~italic('de novo')")
-    )
+    ) %>% factor %>%
+        relevel(ref = "'Assembled '~italic('de novo')")
+        
 }

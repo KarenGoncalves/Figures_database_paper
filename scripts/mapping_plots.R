@@ -1,8 +1,14 @@
 source("scripts/FUNCTIONS.R")
 
-mapping.summary = 
+mapping_stats = 
     read_delim("kallisto_stats.txt") %>%
-    mutate(Species = gsub("_", " ", Species)) %>%
+    mutate(Species = gsub("_", " ", Species)) 
+    
+    
+#### Summarized data and plots ####
+
+mapping.summary = 
+    mapping_stats %>%
     group_by(Species) %>%
     summarize(Mean_Total = mean(p_pseudoaligned),
               SD_Total = sd(p_pseudoaligned),
@@ -68,3 +74,56 @@ for (i in c("Total", "Unique")) {
         ggsave(fileName, width = 8, height = 8, units="in", dpi = 600)
     }
 }
+
+#### Plots by species ####
+
+mapping_stats_formatted = 
+    mapping_stats %>%
+    mutate(Species_formatted = formatted_species(Species),
+           Origin = get_Origin(Species)) %>%
+    rename("Total_pseudoaligned_pct" = p_pseudoaligned,
+           "Unique_pseudoaligned_pct" = p_unique)
+
+plots_by_species = unique(mapping_stats_formatted$Species) %>%
+    sapply(simplify = F, \(speciesName) {
+        
+    title = formatted_species(speciesName)
+    
+    mapping_stats_formatted %>%
+            filter(Species == speciesName) %>%
+            select(Run, Species_formatted, Origin,
+                   ends_with("pct")) %>%
+            pivot_longer(cols = ends_with("pct"),
+                         names_to = "Type",
+                         values_to = "Pct") %>%
+            mutate(Type = gsub("_pseudoaligned_pct", "", Type)) %>%
+            ggplot(aes(y = Run, x = Pct, fill = Type)) +
+            geom_col(position = position_identity()) +
+            theme_classic() + 
+            labs(x = "Reads (%)", y = "", fill = "", 
+                 title = ggplot2:::parse_safe(title)) +
+            xlim(c(0, 100)) +
+            scale_y_discrete(labels = ggplot2:::parse_safe) +
+            scale_fill_manual(values = c("black", "red"),
+                              labels = c("Total", "Unique")) +
+            theme(axis.text = element_text(color = "black", size = 11),
+                  legend.text = element_text(size = 11),
+                  strip.text.y = element_text(color = "black",
+                                              angle = 0, 
+                                              size = 11), 
+                  legend.position = "bottom",
+                  strip.background = element_blank())
+
+    })
+
+
+##### Mean mapping by number of samples #####
+
+table(mapping_stats$Species) %>% 
+    as.data.frame %>% 
+    rename(Species = Var1, Samples = Freq) %>% 
+    left_join(full_summary, by = "Species") %>%
+    ggplot(aes(x = Samples, y = Mean, color = Type)) +
+    geom_point() +
+    theme_classic()
+    
