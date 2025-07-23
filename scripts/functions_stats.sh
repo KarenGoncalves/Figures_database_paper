@@ -10,7 +10,7 @@ function get_stats_assembly () {
 	grep  ">" $DIR/proteome/${SPECIES}.fasta | \
 	cut -f 1 -d " " | \
 	sed -E 's/^>(.+)(.p[0-9]+)/\1\t\1\t\1\2/' | \
-	sed -E 's/(_i|_seq)*([0-9]+)*\t/\t/' \
+	sed -E 's/(_i[0-9]+|_seq[0-9]+)*\t/\t/' \
 	> list_orf
 
 	ORF_nGenes=$(cut -f1 list_orf | uniq | wc -l) 
@@ -25,7 +25,7 @@ function get_emapper_stats () {
 	grep -v "#" $DIR/emapper/${SPECIES}.out | \
 	awk -F ' ' '{print $1}'| \
 	sed -E 's/^(.+)(.p[0-9]+)/\1\t\1\t\1\2/' | \
-	sed -E 's/(_i|_seq)*([0-9]+)*\t/\t/'  \
+	sed -E 's/(_i[0-9]+|_seq[0-9]+)*\t/\t/'  \
 	> eggNog.list
 
 	nGenes=$(cut -f1 eggNog.list | uniq | wc -l) 
@@ -41,7 +41,7 @@ function get_pfam_stats () {
 	grep -v "#" $DIR/hmm/${SPECIES}.out | \
 	awk -F ' ' '{print $4}'| \
 	sed -E 's/^(.+)(.p[0-9]+)/\1\t\1\t\1\2/' | \
-	sed -E 's/(_i|_seq)*([0-9]+)*\t/\t/' \
+	sed -E 's/(_i[0-9]+|_seq[0-9]+)*\t/\t/' \
 	> Pfam.list
 
         nGenes=$(cut -f1 Pfam.list | uniq | wc -l)
@@ -57,12 +57,12 @@ function get_uniprot_stats () {
         grep -v "#" $DIR/blastp_uniprot/${SPECIES}.out | \
         awk -F ' ' '{print $1}'| \
 	sed -E 's/^(.+)(.p[0-9]+)/\1\t\1\t\1\2/' | \
-	sed -E 's/(_i|_seq)*([0-9]+)*\t/\t/'  \
+	sed -E 's/(_i[0-9]+|_seq[0-9]+)*\t/\t/'  \
 	> Uniprot.list
 
         nGenes=$(cut -f1 Uniprot.list | uniq | wc -l)
         nTranscripts=$(cut -f2 Uniprot.list | uniq| wc -l)
-        nProtein=$(cut -f3 Pfam.list | wc -l)
+        nProtein=$(cut -f3 Uniprot.list | wc -l)
 	
         echo "${SPECIES} Uniprot $nGenes $nTranscripts $nProtein" |\
          tr ' ' '\t'
@@ -74,7 +74,7 @@ function get_infernal_stats () {
         sed -E 's/ +/\t/g' | \
 	awk -F ' ' '{print $4}'| \
         sed -E 's/^(.+)/\1\t\1/' | \
-	sed -E 's/(_i|_seq)*([0-9]+)*\t/\t/'  \
+	sed -E 's/(_i[0-9]+|_seq[0-9]+)*\t/\t/'  \
 	> Infernal.list
 
         nGenes=$(cut -f1 Infernal.list | uniq | wc -l)
@@ -102,7 +102,7 @@ function detect_motifs_stats () {
 	grep -v "#" $DIR/tmhmm/${SPECIES}.out | \
 	awk -F ' ' '{print $1}'| \
         sed -E 's/^(.+)(.p[0-9]+)/\1\t\1/' | \
-	sed -E 's/(_i|_seq)*([0-9]+)*\t/\t/' \
+	sed -E 's/(_i[0-9]+|_seq[0-9]+)*\t/\t/' \
 	> Transmembrane_domain.list
 
 	TmHmm_nGenes=$(cut -f1 Transmembrane_domain.list | uniq | wc -l) 
@@ -113,7 +113,7 @@ function detect_motifs_stats () {
 	grep -v "#" $DIR/signalp/${SPECIES}_output.gff3 | \
 	awk -F ' ' '{print $1}'| \
         sed -E 's/^(.+)(.p[0-9]+)/\1\t\1/' | \
-	sed -E 's/(_i|_seq)*([0-9]+)*\t/\t/'  \
+	sed -E 's/(_i[0-9]+|_seq[0-9]+)*\t/\t/'  \
 	> Signal_peptide.list
 
 	signalp_nGenes=$(cut -f1 Signal_peptide.list | uniq | wc -l) 
