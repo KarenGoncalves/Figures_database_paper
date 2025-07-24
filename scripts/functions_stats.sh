@@ -119,9 +119,11 @@ function detect_motifs_stats () {
 	signalp_nGenes=$(cut -f1 Signal_peptide.list | uniq | wc -l) 
 	signalp_nProtein=$(cut -f3 Signal_peptide.list | wc -l)
 
-	echo "${SPECIES} Transmembrane_domain $TmHmm_nGenes $TmHmm_nProtein"
-	echo "${SPECIES} Signal_peptide $signalp_nGenes $signalp_nProtein"
+	echo "${SPECIES} Transmembrane_domain $TmHmm_nGenes $TmHmm_nProtein" |\
+         tr ' ' '\t'
 
+	echo "${SPECIES} Signal_peptide $signalp_nGenes $signalp_nProtein"|\
+         tr ' ' '\t'
 }
 
 function rm_tmp_files () {
