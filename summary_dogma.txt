@@ -4,6 +4,7 @@ Crinum_asiaticum	69.26
 Crinum_powellii	70.00
 Galanthus_elwesii	57.60
 Galanthus_sp	30.87
+Hippeastrum_papilio	67.52
 Hippeastrum_sp	70.55
 Hippeastrum_striatum	65.81
 Hippeastrum_vittatum	69.12
@@ -13,6 +14,7 @@ Lycoris_aurea_TH	67.82
 Lycoris_chinensis	68.29
 Lycoris_incarnata	61.88
 Lycoris_longituba	71.21
+Lycoris_radiata	71.34
 Lycoris_sprengeri	70.32
 Narcissus_aff_pseudonarcissus	62.23
 Narcissus_papyraceus	63.60
