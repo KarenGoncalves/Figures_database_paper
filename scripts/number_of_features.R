@@ -1,8 +1,11 @@
-# busco plot
+# Figure 2
 
 source("scripts/FUNCTIONS.R")
 
-features = read_delim("Features_per_assembly.txt") %>% 
+features = read_delim("stats_assemblies.txt", delim="\t",
+                      col_names = c("Species", "Genes", 
+                                    "Transcripts", "Genes_wORFs", 
+                                    "Proteins")) %>% 
     mutate(Species = Species %>% gsub("_", " ", x = .),
            Species_formatted = Species %>% formatted_species) %>%
     pivot_longer(cols = -c(Species, Species_formatted),
@@ -17,8 +20,8 @@ color_feature = c("Genes" = "black",
                   "Transcripts" = "grey50",
                   "Proteins" = "red")
 desired_breaks = 4
-breaks = list("Genes" = seq(0, 10, by = 3),
-           "Transcripts" = seq(0, 15, by = 5),
+breaks = list("Genes" = seq(0, 15, by = 5),
+           "Transcripts" = seq(0, 20, by = 5),
            "Proteins" = seq(0, 2, by = .6)
 )
 
@@ -85,7 +88,7 @@ final_plot <- plots_modified %>%
 final_plot
 
 dir.create("plots", showWarnings = F)
-ggsave(paste0("plots/Number_of_features", Sys.Date(), ".svg"),
+ggsave(paste0("plots/Figure2_numberFeatures", Sys.Date(), ".svg"),
        width = 8, height = 8, units="in")
-ggsave(paste0("plots/Number_of_features", Sys.Date(), ".png"),
+ggsave(paste0("plots/Figure2_numberFeatures", Sys.Date(), ".png"),
        width = 8, height = 8, units="in")
