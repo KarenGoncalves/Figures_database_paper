@@ -12,9 +12,14 @@ features = read_delim("stats_assemblies.txt", delim="\t",
                  values_to = "Number of features",
                  names_to = "Feature") %>%
     mutate(
-        Feature = factor(Feature, levels = c("Genes", "Transcripts", "Proteins")),
+        Feature = factor(Feature, levels = c("Genes", "Transcripts", "Proteins", "Genes_wORFs")),
         Origin = get_Origin(Species)
     ) 
+
+features %>% 
+    group_by(Feature) %>% 
+    slice_max(`Number of features`) %>% 
+    select(Species, Feature, `Number of features`)
 
 color_feature = c("Genes" = "black", 
                   "Transcripts" = "grey50",
@@ -25,7 +30,7 @@ breaks = list("Genes" = seq(0, 15, by = 5),
            "Proteins" = seq(0, 2, by = .6)
 )
 
-plots = lapply(levels(features$Feature), \(x) {
+plots = lapply(levels(features$Feature)[1:3], \(x) {
     
     dataset = features %>% filter(Feature == x)
     max_x = max(breaks[[x]], dataset$`Number of features`/100000)
