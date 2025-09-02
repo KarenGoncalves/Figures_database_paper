@@ -1,6 +1,6 @@
 #!/bin/sh
 source $SCRATCH/plots_database_paper/scripts/functions_stats.sh
-DIR=/nearline/def-desgagne/amaryllidaceae_annotations
+DIR=$SCRATCH/amaryllidaceae_annotations
 SPECIES=$1
 outDIR=$2
 
