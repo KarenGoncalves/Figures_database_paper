@@ -41,9 +41,11 @@ full_summary = left_join(
     mutate(Species_formatted = formatted_species(Species),
            Origin = get_Origin(Species))
 
+plot_names=c("Total" = "plots/Figure4_mappingTotal",
+             "Unique" = "plots/Supplementary_MappingUnique")
 
 for (i in c("Total", "Unique")) {
-    plot_name = paste0("plots/Mapping_", i, c(".svg", ".png"))
+    plot_name = paste0(plot_names[i], c(".svg", ".png"))
     
     full_summary %>%
     filter(Type == i) %>%
