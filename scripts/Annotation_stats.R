@@ -8,10 +8,11 @@ theme_set(theme_classic() +
                   axis.title = element_text(color = "black")
               )
 )
+col_names = c("Species", "Database", 
+              "Genes", "Transcripts", "Proteins")
 stats_annotation = 
     read_delim("stats_annotation.txt",
-               col_names = c("Species", "Database", 
-                             "Genes", "Transcripts", "Proteins")) %>%
+               col_names = col_names) %>%
     mutate(Species = gsub("_", " ", Species), 
            Species_formatted = formatted_species(Species),
            Origin = get_Origin(Species)) %>%
@@ -30,8 +31,7 @@ stats_assembly =
     mutate(Species = gsub("_", " ", Species))
 stats_motifs = 
     read_delim("stats_motifs.txt",
-               col_names = c("Species", "Database", 
-                             "Genes", "Proteins")) %>%
+               col_names = col_names[-4]) %>%
     mutate(Species = gsub("_", " ", Species))
 
 stats_annotation %>%
@@ -49,7 +49,8 @@ stats_annotation %>%
 
 
 proportion_annotation =
-    read_delim("stats_annotation.txt") %>%
+    read_delim("stats_annotation.txt",
+               col_names = col_names) %>%
     mutate(Species = gsub("_", " ", Species), 
            Species_formatted = formatted_species(Species),
            Origin = get_Origin(Species)) %>%
@@ -66,24 +67,47 @@ proportion_annotation =
                  names_to = "Feature",
                  values_to = "Percentage", 
                  names_prefix = "PCT_") %>% 
-    filter(Database %in% c("Infernal", "'EggNOG, Pfam or UniProt'")) 
+    mutate(Database = gsub("Infernal", "Rfam", Database)) %>% 
+    filter(Database %in% c("Rfam", "'EggNOG, Pfam or UniProt'")) 
 
 proportion_annotation %>% 
-    filter(Feature == "Genes") %>% 
+    filter(Feature == "Genes", Database != "Rfam" ) %>% 
     ggplot(aes(x = Percentage, y = Species_formatted %>% fct_rev())) +
     geom_col() +
-    labs(x = "", y = "") +
+    labs(x = "Genes (%)", y = "") +
     theme_classic() +
+    scale_x_continuous(breaks=seq(0, 100, 25), 
+                       labels=seq(0, 100, 25), 
+                       limits = c(0, 100)) +
+    scale_y_discrete(labels = ggplot2:::parse_safe) +
+    facet_grid(scales = "free",
+               rows = vars(Origin), space = "free_y",
+               labeller = label_parsed) +
+    theme(strip.text.y = element_text(angle = 360),
+          strip.background = element_blank())
+ggsave("plots/Figure5_AnnotationAllGenes.svg",
+       width = 6.9, height = 7.54)
+
+ggsave("plots/Figure5_AnnotationAllGenes.png",
+       width = 6.9, height = 7.54)
+
+proportion_annotation %>% 
+    filter(Feature == "Genes", Database == "Rfam" ) %>% 
+    ggplot(aes(x = Percentage, y = Species_formatted %>% fct_rev())) +
+    geom_col() +
+    labs(x = "Genes (%)", y = "") +
+    theme_classic() +
+    scale_x_continuous(breaks=seq(0, 1, .25), 
+                       labels=seq(0, 1, .25)) +
     scale_y_discrete(labels = ggplot2:::parse_safe) +
     facet_grid(cols = vars(Database), scales = "free",
                rows = vars(Origin), space = "free_y",
                labeller = label_parsed) +
     theme(strip.text.y = element_text(angle = 360),
           strip.background = element_blank())
-ggsave("plots/Genes_annotated_protein_DBs.svg",
+ggsave("plots/FigureS5_AnnotationRfam.svg",
        width = 6.9, height = 7.54)
-
-ggsave("plots/Genes_annotated_protein_DBs.png",
+ggsave("plots/FigureS5_AnnotationRfam.png",
        width = 6.9, height = 7.54)
 
 proportion_annotation %>% 
@@ -91,17 +115,19 @@ proportion_annotation %>%
            Database == "'EggNOG, Pfam or UniProt'") %>% 
     ggplot(aes(x = Percentage, y = Species_formatted %>% fct_rev())) +
     geom_col() +
-    labs(x = "", y = "") +
+    labs(x = "Protein-coding genes (%)", y = "") +
     theme_classic() +
     scale_y_discrete(labels = ggplot2:::parse_safe) +
-    facet_grid(cols = vars(Database), scales = "free",
+    facet_grid(scales = "free",
                rows = vars(Origin), space = "free_y", 
                labeller = label_parsed) +
     theme(strip.text.y = element_text(angle = 360),
           strip.background = element_blank())
-ggsave("plots/ProteinCodingGenes_annotated_protein_DBs.png",
+ggsave("plots/FigureS5_AnnotationProteinCodingGenes.png",
        width = 6.9, height = 7.54)
 
+ggsave("plots/FigureS5_AnnotationProteinCodingGenes.svg",
+       width = 6.9, height = 7.54)
 
 proportion_annotation %>% 
     select(Genes.y, Feature, Species_formatted, 
@@ -130,5 +156,5 @@ proportion_annotation %>%
 ggsave("plots/TranscriptomeSize_AnnotationPCT.svg",
        width = 6.12, height = 4.14)
 
-ggsave("plots/TranscriptomeSize_AnnotationPCT..png",
+ggsave("plots/TranscriptomeSize_AnnotationPCT.png",
        width = 6.12, height = 4.14)
