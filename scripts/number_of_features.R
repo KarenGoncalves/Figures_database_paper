@@ -97,3 +97,49 @@ ggsave(paste0("plots/Figure2_numberFeatures", Sys.Date(), ".svg"),
        width = 8, height = 8, units="in")
 ggsave(paste0("plots/Figure2_numberFeatures", Sys.Date(), ".png"),
        width = 8, height = 8, units="in")
+
+##### Proportion of protein coding genes ######
+
+prop_prot_encoding <- read_delim("stats_assemblies.txt", delim="\t",
+                                 col_names = c("Species", "Genes", 
+                                               "Transcripts", "Genes_wORFs", 
+                                               "Proteins")) %>% 
+    mutate(Species = Species %>% gsub("_", " ", x = .)) %>%
+    group_by(Species) %>% 
+    summarize(Proportion = Genes_wORFs/Genes) %>% 
+    mutate(Origin = get_Origin(Species),
+           Species_formatted = Species %>% formatted_species,
+           Percentages = Proportion * 100)
+
+prop_prot_encoding %>% 
+    ggplot(aes(Percentages, 
+               Species_formatted %>% fct_rev)) + 
+    geom_col(show.legend = F) + 
+    theme_classic() + 
+    facet_grid(rows = vars(Origin), drop = T,  
+               labeller = label_parsed,
+               scales = "free_y", shrink = T,
+               space = "free_y") + 
+    labs(x = "Protein-encoding genes in transcriptome (%)", y = "", fill = "") +
+    scale_y_discrete(labels = ggplot2:::parse_safe) +
+    theme(axis.text = element_text(color = "black", size = 11),
+          strip.text.y = element_text(color = "black",
+                                      angle = 0, 
+                                      size = 11),
+          strip.background = element_blank())
+
+ggsave("plots/FigureS2_proportionProtEncodingGenes.png",
+       width = 8, height = 8, units="in")
+ggsave("plots/FigureS2_proportionProtEncodingGenes.svg",
+       width = 8, height = 8, units="in")
+prop_prot_encoding %>% 
+    group_by(Origin) %>% 
+    summarize(Mean_pct = mean(Percentages))
+
+prop_prot_encoding %>% 
+    filter(Species != "Lycoris aurea PB") %>% 
+    group_by(Origin) %>% 
+    summarize(Mean_pct = mean(Percentages))
+
+prop_prot_encoding %>% slice_max(order_by = Percentages)
+prop_prot_encoding %>% slice_min(order_by = Percentages)
