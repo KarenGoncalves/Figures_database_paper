@@ -8,7 +8,10 @@ theme_set(theme_classic() +
                   axis.title = element_text(color = "black")
               )
 )
-stats_annotation = read_delim("stats_annotation.txt") %>%
+stats_annotation = 
+    read_delim("stats_annotation.txt",
+               col_names = c("Species", "Database", 
+                             "Genes", "Transcripts", "Proteins")) %>%
     mutate(Species = gsub("_", " ", Species), 
            Species_formatted = formatted_species(Species),
            Origin = get_Origin(Species)) %>%
@@ -19,9 +22,16 @@ stats_annotation = read_delim("stats_annotation.txt") %>%
                            "'EggNOG, Pfam or UniProt'",
                            Database))
 
-stats_assembly = read_delim("stats_assemblies.txt") %>%
+stats_assembly = 
+    read_delim("stats_assemblies.txt",
+               col_names = c("Species", "Genes", 
+                             "Transcripts", "Genes_wORFs", 
+                             "Proteins")) %>%
     mutate(Species = gsub("_", " ", Species))
-stats_motifs = read_delim("stats_motifs.txt") %>%
+stats_motifs = 
+    read_delim("stats_motifs.txt",
+               col_names = c("Species", "Database", 
+                             "Genes", "Proteins")) %>%
     mutate(Species = gsub("_", " ", Species))
 
 stats_annotation %>%
