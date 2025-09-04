@@ -42,7 +42,7 @@ busco_data %>%
           strip.background = element_blank())
 
 dir.create("plots", showWarnings = F)
-ggsave(paste0("plots/BUSCO_", Sys.Date(), ".svg"), 
+ggsave(paste0("plots/Figure3_BUSCO_", Sys.Date(), ".svg"), 
        width = 8, height = 8, units="in")
-ggsave(paste0("plots/BUSCO_", Sys.Date(), ".png"), 
+ggsave(paste0("plots/Figure3_BUSCO_", Sys.Date(), ".png"), 
        width = 8, height = 8, units="in")
