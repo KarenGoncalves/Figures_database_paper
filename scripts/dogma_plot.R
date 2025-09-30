@@ -31,8 +31,8 @@ DOGMA_summary %>%
           strip.background = element_blank())
 
 dir.create("plots", showWarnings = F)
-ggsave(paste0("plots/FigureS4_DOGMA_", Sys.Date(), ".svg"), 
+ggsave(paste0("plots/FigureS3_DOGMA_", Sys.Date(), ".svg"), 
        width = 8, height = 8, units="in")
-ggsave(paste0("plots/FigureS4_DOGMA_", Sys.Date(), ".png"), 
+ggsave(paste0("plots/FigureS3_DOGMA_", Sys.Date(), ".png"), 
        width = 8, height = 8, units="in")
 

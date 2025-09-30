@@ -132,9 +132,9 @@ prop_prot_encoding %>%
                                       size = 11),
           strip.background = element_blank())
 
-ggsave("plots/FigureS2_proportionProtEncodingGenes.png",
+ggsave("plots/FigureS1_proportionProtEncodingGenes.png",
        width = 8, height = 8, units="in")
-ggsave("plots/FigureS2_proportionProtEncodingGenes.svg",
+ggsave("plots/FigureS1_proportionProtEncodingGenes.svg",
        width = 8, height = 8, units="in")
 prop_prot_encoding %>% 
     group_by(Origin) %>% 
