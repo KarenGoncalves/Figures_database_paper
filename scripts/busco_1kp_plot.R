@@ -35,7 +35,7 @@ combined_data %>%
                                     "Fragmented", "Missing")) + 
     labs(x = "BUSCO %", y = "", fill = "") +
     # scale_y_discrete(
-    theme(axis.text = element_text(color = "black", size = 11),
+    theme(axis.text = element_text(color = "black", size = 11, hjust=0),
           legend.text = element_text(size = 11),
           strip.text.y = element_text(color = "black",hjust=0,
                                       angle = 0, 
@@ -59,13 +59,13 @@ combined_data %>%
                axes = "all_y") + 
     labs(x = "Missing BUSCO %", y = "", fill = "") +
     scale_fill_manual(values = "black") + 
-    theme(axis.text = element_text(color = "black", size = 11),
+    theme(axis.text = element_text(color = "black", size = 11, hjust=0),
           legend.text = element_text(size = 11),
           strip.text.y = element_text(color = "black", hjust = 0,
                                       angle = 0, 
                                       size = 11), 
           strip.background = element_blank())
-ggsave("plots/Supplementary_compare_1KP_busco_missing.svg",
+ggsave("plots/FigureS2_1KP_busco_missing.svg",
        width=8, height = 4.6)
-ggsave("plots/Supplementary_compare_1KP_busco_missing.png",
+ggsave("plots/FigureS2_1KP_busco_missing.png",
        width=8, height = 4.6)
