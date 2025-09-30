@@ -38,13 +38,13 @@ stats_annotation %>%
     filter(Database %in% c("Infernal", "'EggNOG, Pfam or UniProt'"),
            Feature == "Genes") %>% 
     ggplot(aes(x = Total, y = Species_formatted %>% fct_rev())) +
-    geom_col() +
+    geom_col(fill = "black") +
     labs(x = "", y = "") +
     scale_y_discrete(labels = ggplot2:::parse_safe) +
     facet_grid(cols = vars(Database), scales = "free",
                rows = vars(Origin), space = "free_y",
                labeller = label_parsed) +
-    theme(strip.text.y = element_text(angle = 360),
+    theme(strip.text.y = element_text(hjust = 0,angle = 360),
           strip.background = element_blank())
 
 
@@ -73,7 +73,7 @@ proportion_annotation =
 proportion_annotation %>% 
     filter(Feature == "Genes", Database != "Rfam" ) %>% 
     ggplot(aes(x = Percentage, y = Species_formatted %>% fct_rev())) +
-    geom_col() +
+    geom_col(fill = "black") +
     labs(x = "Genes (%)", y = "") +
     theme_classic() +
     scale_x_continuous(breaks=seq(0, 100, 25), 
@@ -83,18 +83,19 @@ proportion_annotation %>%
     facet_grid(scales = "free",
                rows = vars(Origin), space = "free_y",
                labeller = label_parsed) +
-    theme(strip.text.y = element_text(angle = 360),
+    theme(axis.text = element_text(color = "black", size=11),
+          strip.text.y = element_text(hjust = 0, angle = 360, size=11),
           strip.background = element_blank())
 ggsave("plots/Figure5_AnnotationAllGenes.svg",
-       width = 6.9, height = 7.54)
+       width = 8, height = 7)
 
 ggsave("plots/Figure5_AnnotationAllGenes.png",
-       width = 6.9, height = 7.54)
+       width = 8, height = 7)
 
 proportion_annotation %>% 
     filter(Feature == "Genes", Database == "Rfam" ) %>% 
     ggplot(aes(x = Percentage, y = Species_formatted %>% fct_rev())) +
-    geom_col() +
+    geom_col(fill="black") +
     labs(x = "Genes (%)", y = "") +
     theme_classic() +
     scale_x_continuous(breaks=seq(0, 1, .25), 
@@ -103,31 +104,33 @@ proportion_annotation %>%
     facet_grid(cols = vars(Database), scales = "free",
                rows = vars(Origin), space = "free_y",
                labeller = label_parsed) +
-    theme(strip.text.y = element_text(angle = 360),
+    theme(axis.text = element_text(color = "black", size=11),
+          strip.text.y = element_text(hjust = 0, angle = 360, size=11),
           strip.background = element_blank())
 ggsave("plots/FigureS5_AnnotationRfam.svg",
-       width = 6.9, height = 7.54)
+       width = 8, height = 7)
 ggsave("plots/FigureS5_AnnotationRfam.png",
-       width = 6.9, height = 7.54)
+       width = 8, height = 7)
 
 proportion_annotation %>% 
     filter(Feature == "ProteinCodingGenes",
            Database == "'EggNOG, Pfam or UniProt'") %>% 
     ggplot(aes(x = Percentage, y = Species_formatted %>% fct_rev())) +
-    geom_col() +
+    geom_col(fill="black") +
     labs(x = "Protein-coding genes (%)", y = "") +
     theme_classic() +
     scale_y_discrete(labels = ggplot2:::parse_safe) +
     facet_grid(scales = "free",
                rows = vars(Origin), space = "free_y", 
                labeller = label_parsed) +
-    theme(strip.text.y = element_text(angle = 360),
+    theme(axis.text = element_text(color = "black", size=11),
+          strip.text.y = element_text(hjust = 0, angle = 360, size=11),
           strip.background = element_blank())
 ggsave("plots/FigureS5_AnnotationProteinCodingGenes.png",
-       width = 6.9, height = 7.54)
+       width = 8, height = 7)
 
 ggsave("plots/FigureS5_AnnotationProteinCodingGenes.svg",
-       width = 6.9, height = 7.54)
+       width = 8, height = 7)
 
 proportion_annotation %>% 
     select(Genes.y, Feature, Species_formatted, 

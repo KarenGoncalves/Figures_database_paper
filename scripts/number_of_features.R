@@ -16,6 +16,10 @@ features = read_delim("stats_assemblies.txt", delim="\t",
         Origin = get_Origin(Species)
     ) 
 
+features$Species_formatted %>% unique %>% parse_character(x = .) %>% 
+    gsub("(italic|\\(|\\)|'|~)", "", x = .) %>%
+    paste(collapse = ", ")
+
 features %>% 
     group_by(Feature) %>% 
     slice_max(`Number of features`) %>% 
@@ -49,7 +53,7 @@ plots = lapply(levels(features$Feature)[1:3], \(x) {
         scale_y_discrete(labels = ggplot2:::parse_safe) +
         scale_x_continuous(breaks = breaks[[x]], limits = c(0, max_x)) +
         theme(axis.text = element_text(color = "black", size = 11),
-              strip.text.y = element_text(color = "black",
+              strip.text.y = element_text(color = "black", hjust = 0,
                                           angle = 0, 
                                           size = 11), 
               strip.text.x = element_text(size = 12, face = "bold"),
@@ -94,9 +98,9 @@ final_plot
 
 dir.create("plots", showWarnings = F)
 ggsave(paste0("plots/Figure2_numberFeatures", Sys.Date(), ".svg"),
-       width = 8, height = 8, units="in")
+       width = 9, height = 8, units="in")
 ggsave(paste0("plots/Figure2_numberFeatures", Sys.Date(), ".png"),
-       width = 8, height = 8, units="in")
+       width = 9, height = 8, units="in")
 
 ##### Proportion of protein coding genes ######
 
@@ -114,7 +118,7 @@ prop_prot_encoding <- read_delim("stats_assemblies.txt", delim="\t",
 prop_prot_encoding %>% 
     ggplot(aes(Percentages, 
                Species_formatted %>% fct_rev)) + 
-    geom_col(show.legend = F) + 
+    geom_col(show.legend = F, fill="black") + 
     theme_classic() + 
     facet_grid(rows = vars(Origin), drop = T,  
                labeller = label_parsed,
@@ -123,7 +127,7 @@ prop_prot_encoding %>%
     labs(x = "Protein-encoding genes in transcriptome (%)", y = "", fill = "") +
     scale_y_discrete(labels = ggplot2:::parse_safe) +
     theme(axis.text = element_text(color = "black", size = 11),
-          strip.text.y = element_text(color = "black",
+          strip.text.y = element_text(color = "black",hjust = 0,
                                       angle = 0, 
                                       size = 11),
           strip.background = element_blank())

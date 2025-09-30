@@ -31,18 +31,20 @@ busco_data %>%
     facet_grid(rows = vars(Origin), scales = "free_y",  
                axes = "all_y", space = "free",
                labeller = label_parsed) +
-    scale_fill_viridis_d(option="plasma", direction = -1) + 
+    scale_fill_viridis_d(option="plasma", direction = -1,
+                         breaks = c("Single", "Duplicated", "Fragmented", "Missing")) + 
     labs(x = "BUSCO %", y = "", fill = "") +
     scale_y_discrete(labels = ggplot2:::parse_safe) +
     theme(axis.text = element_text(color = "black", size = 11),
           legend.text = element_text(size = 11),
-          strip.text.y = element_text(color = "black",
+          legend.position = "bottom",
+          strip.text.y = element_text(color = "black",hjust=0,
                                       angle = 0, 
                                       size = 11), 
           strip.background = element_blank())
 
 dir.create("plots", showWarnings = F)
 ggsave(paste0("plots/Figure3_BUSCO_", Sys.Date(), ".svg"), 
-       width = 8, height = 8, units="in")
+       width = 8, height = 8.5, units="in")
 ggsave(paste0("plots/Figure3_BUSCO_", Sys.Date(), ".png"), 
-       width = 8, height = 8, units="in")
+       width = 8, height = 8.5, units="in")

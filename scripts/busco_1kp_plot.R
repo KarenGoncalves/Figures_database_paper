@@ -29,21 +29,23 @@ combined_data %>%
     theme_classic() + 
     facet_grid(rows = vars(Species_formatted) ,
                labeller = label_parsed,
-               axes = "all_x") + 
-    scale_fill_viridis_d(option="plasma", direction = -1) + 
+               axes = "all_y") + 
+    scale_fill_viridis_d(option="plasma", direction = -1,
+                         breaks = c("Single", "Duplicated", 
+                                    "Fragmented", "Missing")) + 
     labs(x = "BUSCO %", y = "", fill = "") +
     # scale_y_discrete(
     theme(axis.text = element_text(color = "black", size = 11),
           legend.text = element_text(size = 11),
-          strip.text.y = element_text(color = "black",
+          strip.text.y = element_text(color = "black",hjust=0,
                                       angle = 0, 
                                       size = 11), 
           strip.background = element_blank())
 
 ggsave("plots/Supplementary_compare_1KP_busco.svg",
-       width=8, height = 4.6)
+       width=7.68, height = 2.93)
 ggsave("plots/Supplementary_compare_1KP_busco.png",
-       width=8, height = 4.6)    
+       width=7.68, height = 2.93)
 
 
 combined_data %>%
@@ -54,12 +56,12 @@ combined_data %>%
     theme_classic() + 
     facet_grid(rows = vars(Species_formatted) ,
                labeller = label_parsed,
-               axes = "all_x") + 
+               axes = "all_y") + 
     labs(x = "Missing BUSCO %", y = "", fill = "") +
     scale_fill_manual(values = "black") + 
     theme(axis.text = element_text(color = "black", size = 11),
           legend.text = element_text(size = 11),
-          strip.text.y = element_text(color = "black",
+          strip.text.y = element_text(color = "black", hjust = 0,
                                       angle = 0, 
                                       size = 11), 
           strip.background = element_blank())

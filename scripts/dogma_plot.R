@@ -25,7 +25,7 @@ DOGMA_summary %>%
     scale_y_discrete(labels = ggplot2:::parse_safe) +
     theme(axis.text = element_text(color = "black", size = 11),
           legend.text = element_text(size = 11),
-          strip.text.y = element_text(color = "black",
+          strip.text.y = element_text(color = "black",hjust=0,
                                       angle = 0, 
                                       size = 11), 
           strip.background = element_blank())
@@ -35,3 +35,4 @@ ggsave(paste0("plots/FigureS4_DOGMA_", Sys.Date(), ".svg"),
        width = 8, height = 8, units="in")
 ggsave(paste0("plots/FigureS4_DOGMA_", Sys.Date(), ".png"), 
        width = 8, height = 8, units="in")
+

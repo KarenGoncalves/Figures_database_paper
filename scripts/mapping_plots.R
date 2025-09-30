@@ -63,14 +63,12 @@ for (i in c("Total", "Unique")) {
     labs(x = "Reads (%)", y = "", fill = "") +
     xlim(c(0, 100)) +
     scale_y_discrete(labels = ggplot2:::parse_safe) +
-    theme(axis.text = element_text(color = "black", size = 11),
-          legend.text = element_text(size = 11),
-          strip.text.y = element_text(color = "black",
-                                      angle = 0, 
-                                      size = 11), 
-          legend.position = "bottom",
-          strip.background = element_blank())
-    
+        theme(axis.text = element_text(color = "black", size=11),
+              strip.text.y = element_text(hjust = 0, angle = 360, size=11),
+              strip.background = element_blank(),
+              legend.text = element_text(size = 11),
+              legend.position = "bottom"
+        )
     
     for (fileName in plot_name) {
         ggsave(fileName, width = 8, height = 8, units="in", dpi = 600)
